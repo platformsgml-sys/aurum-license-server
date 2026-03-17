@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 import sqlite3
 from datetime import datetime
 
+@app.route("/dashboard")
+def dashboard():
+    return "GO TO /dashboard FORM"
 app = Flask(__name__)
 
 def db():

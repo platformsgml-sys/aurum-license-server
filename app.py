@@ -2,14 +2,12 @@ from flask import Flask, request, jsonify
 import sqlite3
 from datetime import datetime
 
-@app.route("/dashboard")
-def dashboard():
-    return "GO TO /dashboard FORM"
 app = Flask(__name__)
 
 def db():
     return sqlite3.connect("database.db", check_same_thread=False)
 
+# create table
 conn = db()
 cur = conn.cursor()
 
@@ -25,6 +23,10 @@ status TEXT
 """)
 
 conn.commit()
+
+@app.route("/")
+def home():
+    return "AURUM SERVER LIVE ✅"
 
 @app.route("/verify", methods=["POST"])
 def verify():
@@ -49,5 +51,9 @@ def verify():
         return jsonify({"status": "PAUSED"})
 
     return jsonify({"status": "VALID"})
+
+@app.route("/dashboard")
+def dashboard():
+    return "DASHBOARD COMING SOON"
 
 app.run(host="0.0.0.0", port=10000)

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import sqlite3
 from datetime import datetime
 
+# 🔥 THIS MUST BE FIRST
 app = Flask(__name__)
 
 def db():
@@ -24,10 +25,12 @@ status TEXT
 
 conn.commit()
 
+# ✅ HOME (fix Not Found)
 @app.route("/")
 def home():
-    return "AURUM SERVER LIVE ✅"
+    return "AURUM LICENSE SERVER RUNNING ✅"
 
+# ✅ VERIFY (EA uses this)
 @app.route("/verify", methods=["POST"])
 def verify():
     data = request.json
@@ -52,8 +55,5 @@ def verify():
 
     return jsonify({"status": "VALID"})
 
-@app.route("/dashboard")
-def dashboard():
-    return "DASHBOARD COMING SOON"
-
+# 🚀 RUN (Render)
 app.run(host="0.0.0.0", port=10000)

@@ -35,6 +35,7 @@ def home():
 def verify():
     data = request.json
     key = data.get("license")
+    hwid = data.get("hwid")
 
     conn = db()
     cur = conn.cursor()
@@ -44,6 +45,15 @@ def verify():
 
     if not row:
         return jsonify({"status": "INVALID"})
+
+    # 🔐 FIRST TIME BIND
+    if row[2] == "" or row[2] is None:
+        cur.execute("UPDATE licenses SET account=? WHERE license_key=?", (hwid, key))
+        conn.commit()
+
+    # 🔐 CHECK HWID MATCH
+    if row[2] != hwid:
+        return jsonify({"status": "LOCKED"})
 
     expiry = datetime.strptime(row[4], "%Y-%m-%d")
 
